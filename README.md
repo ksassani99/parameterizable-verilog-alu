@@ -1,1 +1,1 @@
-# Parametrizable Verilog ALU
+# Parameterizable Verilog ALU
