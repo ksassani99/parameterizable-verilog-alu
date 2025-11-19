@@ -1,7 +1,7 @@
 `timescale 1ns/1ps
 
 module tb_alu;
-    parameter WIDTH = 32;
+    parameter WIDTH = 8;
 
     // DUT inputs
     reg [WIDTH-1:0] a;

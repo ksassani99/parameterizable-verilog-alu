@@ -1,0 +1,32 @@
+name: Icarus Verilog CI
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Install Icarus Verilog
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y iverilog
+
+    - name: Run and Compile for multiple WIDTHs
+      run: |
+        for W in 8 16 32 64
+        do
+          echo "Testing WIDTH=$W"
+          iverilog -o alu_tb.vvp -P alu.WIDTH=$W src/alu.v tb/tb_alu.v
+          vvp alu_tb.vvp
+        done
+
+    - name: Upload waveform (optional)
+      if: success()
+      uses: actions/upload-artifact@v4
+      with:
+        name: alu_waveform
+        path: tb_alu.vcd
