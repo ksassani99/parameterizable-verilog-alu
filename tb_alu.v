@@ -1,7 +1,7 @@
 `timescale 1ns/1ps
 
 module tb_alu;
-    parameter WIDTH = 8;
+    parameter WIDTH = 32;
 
     // DUT inputs
     reg [WIDTH-1:0] a;
@@ -29,6 +29,7 @@ module tb_alu;
 
     integer tests;    // how many test vectors run
     integer errors;   // how many of those failed
+    integer i;        // integer i in for loop
 
     // operation params (better organization for cases)
     localparam OP_ADD = 3'b000;   // add
@@ -148,6 +149,7 @@ module tb_alu;
     initial begin
         tests = 0;
         errors = 0;
+        i = 0;
 
         $display("=============== TESTBENCH START (width=%0d) ===============", 
                 WIDTH);
@@ -213,7 +215,7 @@ module tb_alu;
         run_test(0, WIDTH+1, OP_SRA);
 
         // random tests
-        for (integer i = 0; i < 500; i = i + 1) begin
+        for (i = 0; i < 500; i = i + 1) begin
             run_test($random,            // random a
                     $random,             // random b
                     $random & 3'b111);   // random op within range
