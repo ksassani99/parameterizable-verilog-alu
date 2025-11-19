@@ -36,23 +36,49 @@ module tb_alu;
         $dumpvars(0, tb_alu);
     end
 
+    // task (applying one vector)
+    task run_test;
+        input [WIDTH-1:0] t_a;
+        input [WIDTH-1:0] t_b;
+        input [2:0] t_op;
+
+        begin
+            a = t_a;
+            b = t_b;
+            op = t_op;
+
+            #1;   // wait for combinational logic to settle
+
+            tests = tests + 1;   // bump test counter
+
+            // display outputs
+            $display("Test %0d: a=%0d, b=%0d, op=%b => y=%0d, overflow=%b, carry=%b, zero=%b, negative=%b", 
+                    tests, a, b, op, y, overflow, carry, zero, negative);
+        end
+    endtask
+
     // test procedure
     initial begin
         tests = 0;
         errors = 0;
 
-        // default values
-        a = {WIDTH{1'b0}};
-        b = {WIDTH{1'b0}};
-        op = 3'b000;
+        // ADD 1 + 2
+        run_test(1, 2, 3'b000);
 
-        #1;
-        a = 1;
-        b = 2;
-        op = 3'b000; // ADD
-        #1;
+        // SUB 10 - 3
+        run_test(10, 3, 3'b001);
 
-        $display("Smoke test done (WIDTH=%0d). Add self-checking next.", WIDTH);
+        // AND all ones & 0
+        run_test({WIDTH{1'b1}}, 0, 3'b010);
+
+        // OR all ones | 0
+        run_test({WIDTH{1'b1}}, 0, 3'b011);
+
+        // XOR: 0xAA ^ 0xFF (truncated to WIDTH)
+        run_test('hAA, 'hFF, 3'b100);
+
+        $display("Smoke test complete (WIDTH=%0d): tests=%0d errors=%0d (Add self-checking next)", 
+                WIDTH, tests, errors);
         $finish;
     end
 endmodule
