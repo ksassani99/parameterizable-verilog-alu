@@ -102,7 +102,7 @@ surfer tb_alu.vcd
 - Self-checking
 - Golden model built inside testbench
 - Directed test cases for each opcode
-- Edge-case tests for for carry/borrow, overflow, and shift saturation
+- Edge-case tests for carry/borrow, overflow, and shift saturation
 - Randomized test loop (500+ iterations)
 - Prints mismatches with expected vs actual values
 
