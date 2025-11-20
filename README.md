@@ -1,4 +1,4 @@
-# Parametrizable ALU in Verilog (8/16/32/64-bit)
+# Parametrizable ALU in Verilog (4/8/16/32-bit)
 A parametrizable Arithmetic Logic Unit (ALU) implemented in Verilog, supporting arithmetic, logical, and shift operations with carry, overflow, zero, and negative flag generation. Includes a fully self-checking testbench with directed, edge-case, and randomized testing.
 
 ## Project Structure
@@ -11,7 +11,7 @@ README.md
 ```
 
 ## Design Overview
-This ALU is parametrized for WIDTH, allowing testing and synthesis at 4, 8, 16, 32, and 64 bits (tested).
+This ALU is parametrized for WIDTH, allowing testing and synthesis at 4, 8, 16, and 32 bits (tested).
 
 ### Supported Operations
 | Opcode | Name | Function                        |
@@ -52,10 +52,6 @@ vvp sim
 
 # WIDTH = 32
 iverilog -P tb_alu.WIDTH=32 -o sim src/alu.v tb/tb_alu.v
-vvp sim
-
-# WIDTH = 64
-iverilog -P tb_alu.WIDTH=64 -o sim src/alu.v tb/tb_alu.v
 vvp sim
 ```
 
